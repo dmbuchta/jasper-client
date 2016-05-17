@@ -11,6 +11,7 @@ from semantic.dates import DateService
 
 WORDS = ["WEATHER", "TODAY", "TOMORROW"]
 
+PRIORITY = 2
 
 def replaceAcronyms(text):
     """

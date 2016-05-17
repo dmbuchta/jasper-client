@@ -4,12 +4,12 @@ A drop-in replacement for the Mic class that allows for all I/O to occur
 over the terminal. Useful for debugging. Unlike with the typical Mic
 implementation, Jasper is always active listening with local_mic.
 """
-
-
+import alteration
 class Mic:
     prev = None
 
     def __init__(self, speaker, passive_stt_engine, active_stt_engine):
+        self.speaker = speaker
         return
 
     def passiveListen(self, PERSONA):
@@ -30,3 +30,5 @@ class Mic:
 
     def say(self, phrase, OPTIONS=None):
         print("JASPER: %s" % phrase)
+        phrase = alteration.clean(phrase)
+        self.speaker.say(phrase)

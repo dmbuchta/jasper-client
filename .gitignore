@@ -65,3 +65,17 @@ target/
 
 # SublimeLinter config file
 .sublimelinterrc
+
+#intellij config file
+*.iml
+.idea/
+
+#custom modules
+client/modules/Stocks.py
+client/modules/WolframAlpha.py
+client/modules/Calendar.py
+client/modules/Define.py
+client/modules/Status.py
+
+#jasper add-ons (not modules)
+client/utils

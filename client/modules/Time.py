@@ -3,8 +3,17 @@ import datetime
 import re
 from client.app_utils import getTimezone
 from semantic.dates import DateService
-
+import client.notifier as notifier
+NOTIFIER = True
 WORDS = ["TIME"]
+
+def getNotifications():
+    # return [notifier.Notification("This is an alarm", handleNotication)]
+    return []
+
+
+def handleNotication(notification, mic):
+    mic.say(notification.message)
 
 
 def handle(text, mic, profile):
