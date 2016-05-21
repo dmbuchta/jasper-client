@@ -65,3 +65,9 @@ target/
 
 # SublimeLinter config file
 .sublimelinterrc
+
+#intellij config files
+.idea
+
+#custom modules
+stocks/
