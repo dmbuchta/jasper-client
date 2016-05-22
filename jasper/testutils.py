@@ -1,21 +1,22 @@
 # -*- coding: utf-8 -*-
 import gettext
+import paths
+import yaml
 
-TEST_PROFILE = {
-    'prefers_email': False,
-    'timezone': 'US/Eastern',
-    'phone_number': '012344321',
-    'weather': {
-        'location': 'New York',
-        'unit': 'Fahrenheit',
-        'woeid': '2459115'
-    },
-    "pocketsphinx": {
-        "fst_model": '../phonetisaurus/g014b2b.fst',
-        "hmm_dir": '/usr/share/pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k'
+try:
+    with open(paths.config('profile.yml'), "r") as f:
+        TEST_PROFILE = yaml.safe_load(f)
+except:
+    TEST_PROFILE = {
+        'prefers_email': False,
+        'timezone': 'US/Eastern',
+        'phone_number': '012344321',
+        'weather': {
+            'location': 'New York',
+            'unit': 'Fahrenheit',
+            'woeid': '2459115'
+        }
     }
-
-}
 
 
 class TestMic(object):
