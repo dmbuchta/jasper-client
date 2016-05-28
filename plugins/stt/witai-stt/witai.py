@@ -2,6 +2,22 @@ import logging
 import requests
 from jasper import plugin
 
+# There seems to be no way to get language setting of the defined app
+# Last updated: April 06, 2016
+SUPPORTED_LANG = (
+    'de',
+    'en',
+    'es',
+    'et',
+    'fr',
+    'it',
+    'nl',
+    'pl',
+    'pt',
+    'ru',
+    'sv'
+)
+
 
 class WitAiSTTPlugin(plugin.STTPlugin):
     """
@@ -18,6 +34,9 @@ class WitAiSTTPlugin(plugin.STTPlugin):
     """
 
     def __init__(self, *args, **kwargs):
+        """
+        Create Plugin Instance
+        """
         plugin.STTPlugin.__init__(self, *args, **kwargs)
         self._logger = logging.getLogger(__name__)
         self.token = self.profile['witai-stt']['access_token']
@@ -26,15 +45,29 @@ class WitAiSTTPlugin(plugin.STTPlugin):
             language = self.profile['language']
         except KeyError:
             language = 'en-US'
-        if language.split('-')[0] != 'en':
-            raise ValueError("Languages other than English are not supported")
+        if language.split('-')[0] not in SUPPORTED_LANG:
+            raise ValueError('Language %s is not supported.',
+                             language.split('-')[0])
 
     @property
     def token(self):
+        """
+        Return defined acess token.
+        """
         return self._token
+
+    @property
+    def language(self):
+        """
+        Returns selected language
+        """
+        return self._language
 
     @token.setter
     def token(self, value):
+        """
+        Sets property token
+        """
         self._token = value
         self._headers = {'Authorization': 'Bearer %s' % self.token,
                          'accept': 'application/json',
@@ -42,9 +75,16 @@ class WitAiSTTPlugin(plugin.STTPlugin):
 
     @property
     def headers(self):
+        """
+        Return headers
+        """
         return self._headers
 
     def transcribe(self, fp):
+        """
+        transcribes given audio file by uploading to wit.ai and returning
+        received text from json answer.
+        """
         data = fp.read()
         r = requests.post('https://api.wit.ai/speech?v=20150101',
                           data=data,
